@@ -1,0 +1,47 @@
+/* ===================================
+   VARIÁVEIS CSS - NOVA PALETA DE CORES
+   SEU LOBATO - CS2 TEAM
+   =================================== */
+:root {
+    /* Cores Principais - Baseadas na Logo */
+    --primary-color: #D4A574;        /* Dourado/bege claro da logo */
+    --secondary-color: #8B4513;      /* Marrom chocolate escuro */
+    --accent-color: #CD853F;         /* Dourado mais escuro/peru */
+    --text-color: #FFFFFF;           /* Branco */
+    
+    /* Cores Auxiliares - Tons Terrosos */
+    --dark-bg: #2C1810;              /* Marrom muito escuro, quase preto */
+    --darker-bg: #1A0F08;            /* Marrom ainda mais escuro */
+    --card-bg: #3D2415;              /* Marrom escuro médio */
+    --border-color: #6B4423;         /* Marrom médio */
+    --text-secondary: #F4E4C1;       /* Bege claro/creme */
+    --text-muted: #B8956F;           /* Tom dourado acinzentado */
+    
+    /* Gradientes - Tons Dourados/Marrons */
+    --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    --gradient-dark: linear-gradient(135deg, var(--dark-bg), var(--darker-bg));
+    --gradient-overlay: linear-gradient(rgba(44, 24, 16, 0.8), rgba(26, 15, 8, 0.9));
+    --gradient-gold: linear-gradient(135deg, #D4A574, #CD853F, #B8860B);
+    
+    /* Fontes */
+    --font-primary: 'Orbitron', monospace;
+    --font-secondary: 'Inter', sans-serif;
+    
+    /* Espaçamentos */
+    --container-max-width: 1200px;
+    --section-padding: 80px 0;
+    --card-padding: 24px;
+    
+    /* Transições */
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.5s ease;
+    
+    /* Sombras - Tons Dourados */
+    --shadow-small: 0 2px 8px rgba(44, 24, 16, 0.4);
+    --shadow-medium: 0 4px 16px rgba(44, 24, 16, 0.5);
+    --shadow-large: 0 8px 32px rgba(44, 24, 16, 0.6);
+    --shadow-glow: 0 0 20px rgba(212, 165, 116, 0.4);
+    --shadow-glow-accent: 0 0 25px rgba(205, 133, 63, 0.5);
+    --shadow-hero-logo: 0 0 40px rgba(212, 165, 116, 0.6);
+}

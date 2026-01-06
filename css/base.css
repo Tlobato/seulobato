@@ -1,0 +1,89 @@
+/* ===================================
+   RESET E CONFIGURAÇÕES GLOBAIS
+   =================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
+
+body {
+    font-family: var(--font-secondary);
+    background-color: var(--dark-bg);
+    color: var(--text-color);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Container Global */
+.container {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Utilitários */
+.text-center { text-align: center; }
+.text-primary { color: var(--primary-color); }
+.text-accent { color: var(--accent-color); }
+
+/* Melhorias de acessibilidade */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Estados de foco para acessibilidade */
+.nav-link:focus,
+.social-link:focus,
+.scroll-arrow:focus,
+.logo:focus,
+.footer-logo:focus,
+.hero-logo-image:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Otimizações de performance */
+.player-card,
+.card-image img,
+.logo-image,
+.footer-logo-image,
+.hero-logo-image {
+    will-change: transform;
+}
+
+.hero-background {
+    will-change: transform;
+}
+
+/* Print styles */
+@media print {
+    .header,
+    .scroll-indicator,
+    .footer {
+        display: none;
+    }
+    
+    .hero {
+        height: auto;
+        padding: 2rem 0;
+    }
+    
+    .team-section {
+        padding: 2rem 0;
+    }
+    
+    .player-card {
+        break-inside: avoid;
+        margin-bottom: 1rem;
+    }
+}

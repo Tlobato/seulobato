@@ -1,0 +1,165 @@
+/* ===================================
+   FOOTER
+   =================================== */
+.footer {
+    background: var(--dark-bg);
+    border-top: 1px solid var(--border-color);
+    padding: 3rem 0 1rem;
+    position: relative;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.footer-brand {
+    max-width: 300px;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
+/* Estilos para a imagem da logo no footer */
+.footer-logo-image {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid var(--primary-color);
+    box-shadow: var(--shadow-glow);
+    transition: var(--transition-fast);
+    position: relative;
+}
+
+.footer-logo:hover .footer-logo-image {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+    box-shadow: var(--shadow-glow-accent);
+    animation: logoGlow 1.5s ease-in-out infinite;
+}
+
+.footer-logo span {
+    font-family: var(--font-primary);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-color);
+    text-shadow: 0 0 10px rgba(212, 165, 116, 0.3);
+    position: relative;
+}
+
+.footer-description {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.footer-social h3,
+.footer-contact h3 {
+    color: var(--text-color);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-link {
+    width: 40px;
+    height: 40px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: var(--transition-fast);
+}
+
+.social-link:hover {
+    background: var(--primary-color);
+    color: var(--dark-bg);
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow);
+    text-shadow: 0 0 10px currentColor;
+}
+
+.contact-info p {
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.contact-info i {
+    color: var(--primary-color);
+    width: 16px;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-muted);
+}
+
+/* Efeito especial para as logos no footer */
+.footer-logo-image::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-color), var(--primary-color));
+    border-radius: 10px;
+    z-index: -1;
+    opacity: 0;
+    transition: var(--transition-normal);
+}
+
+.footer-logo:hover .footer-logo-image::after {
+    opacity: 0.3;
+    animation: rotate 2s linear infinite;
+}
+
+/* Animação especial para as logos */
+@keyframes logoGlow {
+    0%, 100% { 
+        box-shadow: var(--shadow-glow);
+        filter: brightness(1);
+    }
+    50% { 
+        box-shadow: var(--shadow-glow-accent);
+        filter: brightness(1.1);
+    }
+}
+
+/* Brilho dourado nos títulos do footer */
+.footer-logo span::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent 30%, rgba(212, 165, 116, 0.1) 50%, transparent 70%);
+    animation: shimmer 3s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}

@@ -1,0 +1,24 @@
+/* ===================================
+   SEULOBATO - CS2 TEAM
+   ARQUIVO PRINCIPAL DE ESTILOS
+   =================================== */
+
+/* Importação dos módulos CSS */
+@import url('variables.css');
+@import url('base.css');
+@import url('header.css');
+@import url('hero.css');
+@import url('team.css');
+@import url('footer.css');
+@import url('responsive.css');
+
+/* ===================================
+   ESTILOS ADICIONAIS E UTILITÁRIOS
+   =================================== */
+
+/* Efeito de glow nos elementos interativos */
+.nav-link:hover,
+.social-link:hover,
+.scroll-arrow:hover {
+    text-shadow: 0 0 10px currentColor;
+}

@@ -1,0 +1,189 @@
+/* ===================================
+   RESPONSIVIDADE
+   =================================== */
+
+/* Tablets */
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex;
+    }
+    
+    .nav-menu {
+        position: fixed;
+        left: -100%;
+        top: 70px;
+        flex-direction: column;
+        background-color: rgba(44, 24, 16, 0.98);
+        width: 100%;
+        text-align: center;
+        transition: var(--transition-normal);
+        box-shadow: var(--shadow-medium);
+        padding: 2rem 0;
+        backdrop-filter: blur(10px);
+    }
+    
+    .nav-menu.active {
+        left: 0;
+    }
+    
+    .nav-item {
+        margin: 1rem 0;
+    }
+    
+    .hero-stats {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .team-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .social-links {
+        justify-content: center;
+    }
+    
+    /* Ajustes para logo do hero em tablets */
+    .hero-logo-image {
+        width: clamp(100px, 12vw, 150px);
+        height: clamp(100px, 12vw, 150px);
+    }
+    
+    /* Badges ainda menores em tablets */
+    .role-badge {
+        font-size: 0.6rem;
+        padding: 0.2rem 0.5rem;
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .container {
+        padding: 0 15px;
+    }
+    
+    .nav-container {
+        padding: 0 15px;
+    }
+    
+    .hero-content {
+        padding: 0 15px;
+    }
+    
+    .hero-stats {
+        gap: 1rem;
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+    }
+    
+    .team-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .player-card {
+        margin: 0 10px;
+    }
+    
+    .card-content {
+        padding: 1rem;
+    }
+    
+    .player-stats {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    /* Ajustes para logos em mobile */
+    .logo,
+    .footer-logo-image {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .team-name,
+    .footer-logo span {
+        font-size: 1.3rem;
+    }
+    
+    /* Ajustes para logo do hero em mobile */
+    .hero-logo-image {
+        width: clamp(80px, 20vw, 120px);
+        height: clamp(80px, 20vw, 120px);
+        border-width: 3px;
+    }
+    
+    .hero-logo {
+        margin-bottom: 1.5rem;
+    }
+    
+    /* Badges muito pequenas em mobile */
+    .role-badge {
+        font-size: 0.55rem;
+        padding: 0.15rem 0.4rem;
+        border-radius: 8px;
+    }
+    
+    .card-overlay {
+        padding: 0.5rem;
+    }
+}
+
+/* Ajustes específicos para telas muito pequenas */
+@media (max-width: 320px) {
+    .hero-logo-image {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .title-main {
+        font-size: 2.5rem;
+    }
+    
+    .title-sub {
+        font-size: 1rem;
+    }
+    
+    .role-badge {
+        font-size: 0.5rem;
+        padding: 0.1rem 0.3rem;
+    }
+}
+
+/* Landscape mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+    .hero {
+        height: auto;
+        min-height: 100vh;
+        padding: 2rem 0;
+    }
+    
+    .hero-logo-image {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .hero-stats {
+        flex-direction: row;
+        gap: 2rem;
+    }
+}
+
+/* Tablets em landscape */
+@media (min-width: 769px) and (max-width: 1024px) and (orientation: landscape) {
+    .team-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .hero-stats {
+        gap: 2rem;
+    }
+}
