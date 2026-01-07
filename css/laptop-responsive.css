@@ -1,0 +1,247 @@
+/* ===================================
+   LAPTOP/NOTEBOOK RESPONSIVE FIXES
+   Correções específicas para notebooks
+   =================================== */
+
+/* Correções para laptops/notebooks (1024px - 1440px) */
+@media screen and (min-width: 1024px) and (max-width: 1440px) {
+    
+    /* ===================================
+       HERO SECTION - AJUSTES PARA LAPTOP
+       =================================== */
+    .hero {
+        height: 85vh; /* Reduzido de 100vh para caber melhor */
+        min-height: 600px; /* Altura mínima garantida */
+    }
+    
+    .hero-content {
+        max-width: 700px; /* Ligeiramente menor */
+        padding: 0 15px;
+    }
+    
+    .hero-logo {
+        margin-bottom: 1.5rem; /* Reduzido de 2rem */
+    }
+    
+    .hero-logo-image {
+        width: clamp(100px, 12vw, 160px); /* Menor para laptops */
+        height: clamp(100px, 12vw, 160px);
+    }
+    
+    .hero-title {
+        margin-bottom: 1.5rem; /* Reduzido de 2rem */
+    }
+    
+    .title-main {
+        font-size: clamp(2.5rem, 6vw, 4.5rem); /* Menor */
+        margin-bottom: 0.3rem; /* Reduzido */
+    }
+    
+    .title-sub {
+        font-size: clamp(1rem, 2.5vw, 1.6rem); /* Menor */
+        letter-spacing: 2px; /* Reduzido */
+    }
+    
+    .hero-description {
+        font-size: 1rem; /* Reduzido de 1.2rem */
+        margin-bottom: 2rem; /* Reduzido de 3rem */
+        max-width: 550px;
+    }
+    
+    .hero-stats {
+        gap: 2rem; /* Reduzido de 3rem */
+        margin-top: 2rem; /* Reduzido de 3rem */
+    }
+    
+    .stat-number {
+        font-size: 2rem; /* Reduzido de 2.5rem */
+    }
+    
+    .stat-label {
+        font-size: 0.8rem; /* Reduzido */
+    }
+    
+    /* ===================================
+       TEAM SECTION - AJUSTES PARA LAPTOP
+       =================================== */
+    .team-section {
+        padding: 60px 0; /* Reduzido */
+    }
+    
+    .section-header {
+        margin-bottom: 3rem; /* Reduzido de 4rem */
+    }
+    
+    .section-title {
+        font-size: clamp(2rem, 4vw, 3rem); /* Menor */
+    }
+    
+    .section-subtitle {
+        font-size: 1rem; /* Reduzido de 1.2rem */
+    }
+    
+    /* ===================================
+       PLAYER CARDS - OTIMIZADOS PARA LAPTOP
+       =================================== */
+    .team-grid {
+        grid-template-columns: repeat(3, 1fr); /* Força 3 colunas */
+        gap: 1.5rem; /* Reduzido de 2rem */
+        max-width: 1200px; /* Limita largura máxima */
+        margin: 0 auto;
+    }
+    
+    .player-card {
+        max-width: 350px; /* Limita largura dos cards */
+        margin: 0 auto;
+    }
+    
+    .card-image {
+        height: 250px; /* Reduzido de 300px */
+    }
+    
+    .card-content {
+        padding: 1.5rem; /* Reduzido */
+    }
+    
+    .player-nickname {
+        font-size: 1.3rem; /* Reduzido de 1.5rem */
+    }
+    
+    .player-description {
+        font-size: 0.9rem; /* Ligeiramente menor */
+        line-height: 1.5; /* Mais compacto */
+        margin-bottom: 1rem; /* Reduzido */
+    }
+    
+    .player-stats {
+        flex-direction: column; /* Empilha as stats */
+        gap: 0.5rem;
+        padding-top: 0.8rem;
+    }
+    
+    .stat {
+        font-size: 0.75rem; /* Menor */
+        padding: 0.25rem 0.6rem; /* Mais compacto */
+    }
+    
+    /* ===================================
+       ABOUT SECTION - AJUSTES PARA LAPTOP
+       =================================== */
+    .about-section {
+        padding: 60px 0; /* Reduzido */
+    }
+    
+    .about-content {
+        max-width: 700px; /* Menor */
+    }
+    
+    .about-content h2 {
+        font-size: 2rem; /* Reduzido de 2.5rem */
+        margin-bottom: 25px;
+    }
+    
+    .about-text p {
+        font-size: 1rem; /* Reduzido de 1.1rem */
+        line-height: 1.6; /* Mais compacto */
+        margin-bottom: 20px;
+    }
+    
+    .about-goals {
+        padding: 25px; /* Reduzido de 30px */
+        margin-top: 30px !important;
+    }
+    
+    .about-goals h3 {
+        font-size: 1.2rem; /* Reduzido de 1.3rem */
+        margin-bottom: 15px;
+    }
+    
+    .about-goals li {
+        font-size: 0.9rem; /* Reduzido de 1rem */
+        margin-bottom: 10px;
+        padding: 6px 0;
+    }
+}
+
+/* ===================================
+   CORREÇÕES ESPECÍFICAS PARA NOTEBOOKS MENORES
+   =================================== */
+@media screen and (min-width: 1024px) and (max-width: 1200px) {
+    
+    .hero {
+        height: 80vh; /* Ainda menor para notebooks menores */
+    }
+    
+    .team-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 colunas para telas menores */
+        max-width: 800px;
+    }
+    
+    .player-card {
+        max-width: 380px;
+    }
+    
+    .hero-stats {
+        flex-wrap: wrap; /* Permite quebra de linha se necessário */
+        gap: 1.5rem;
+    }
+    
+    .stat-item {
+        min-width: 120px; /* Largura mínima */
+    }
+}
+
+/* ===================================
+   AJUSTES PARA ALTURA DE TELA PEQUENA
+   =================================== */
+@media screen and (max-height: 768px) {
+    
+    .hero {
+        height: 100vh; /* Mantém altura total */
+        padding: 20px 0; /* Adiciona padding */
+    }
+    
+    .hero-content {
+        transform: scale(0.9); /* Reduz tudo proporcionalmente */
+    }
+    
+    .hero-logo {
+        margin-bottom: 1rem;
+    }
+    
+    .hero-title {
+        margin-bottom: 1rem;
+    }
+    
+    .hero-description {
+        margin-bottom: 1.5rem;
+    }
+    
+    .hero-stats {
+        margin-top: 1.5rem;
+    }
+    
+    .scroll-indicator {
+        bottom: 15px; /* Mais próximo da borda */
+    }
+}
+
+/* ===================================
+   OTIMIZAÇÕES GERAIS PARA PERFORMANCE
+   =================================== */
+@media screen and (min-width: 1024px) and (max-width: 1440px) {
+    
+    /* Reduz animações complexas em laptops */
+    .hero-background {
+        animation: none; /* Remove animação pesada */
+    }
+    
+    .hero-logo-image {
+        animation: heroLogoPulse 4s ease-in-out infinite; /* Mais lenta */
+    }
+    
+    /* Otimiza sombras para melhor performance */
+    .player-card:hover {
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* Sombra mais simples */
+    }
+}
