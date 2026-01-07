@@ -153,9 +153,9 @@
 
 .title-sub {
     display: block;
-    font-family: var(--font-primary);
+    font-family: 'Inter', sans-serif; /* Mudança para Inter que renderiza acentos melhor */
     font-size: clamp(1.2rem, 3vw, 2rem);
-    font-weight: 400;
+    font-weight: 600; /* Aumentei o peso para compensar a mudança de fonte */
     color: var(--accent-color);
     text-transform: uppercase;
     letter-spacing: 3px;
