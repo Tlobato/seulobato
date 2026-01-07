@@ -1,0 +1,199 @@
+/* ===================================
+   ABOUT SECTION STYLES
+   Estilos para a seção "Sobre o Time"
+   =================================== */
+
+/* Seção principal sobre o time */
+.about-section {
+    padding: 80px 0;
+    background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+    color: #e0e0e0;
+    position: relative;
+    overflow: hidden;
+}
+
+.about-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23ffffff" stroke-width="0.1" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+/* Container do conteúdo */
+.about-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+/* Título da seção */
+.about-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    color: #00ff88;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    text-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+    position: relative;
+}
+
+.about-content h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #00ff88, transparent);
+}
+
+/* Texto principal */
+.about-text p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 25px;
+    color: #c0c0c0;
+    font-weight: 400;
+    text-align: justify;
+}
+
+.about-text p:first-of-type {
+    font-size: 1.15rem;
+    color: #d0d0d0;
+}
+
+/* Seção de objetivos */
+.about-goals {
+    margin-top: 40px;
+    text-align: left;
+    background: rgba(0, 255, 136, 0.05);
+    padding: 30px;
+    border-radius: 10px;
+    border-left: 4px solid #00ff88;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.about-goals:hover {
+    background: rgba(0, 255, 136, 0.08);
+    border-left-width: 6px;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+.about-goals h3 {
+    color: #00ff88;
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    text-shadow: 0 0 10px rgba(0, 255, 136, 0.2);
+}
+
+/* Lista de objetivos */
+.about-goals ul {
+    list-style: none;
+    padding: 0;
+}
+
+.about-goals li {
+    margin-bottom: 12px;
+    font-size: 1rem;
+    color: #e0e0e0;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.about-goals li:last-child {
+    border-bottom: none;
+}
+
+.about-goals li:hover {
+    color: #00ff88;
+    padding-left: 10px;
+    transform: translateX(5px);
+}
+
+/* Ajustes nas estatísticas dos jogadores */
+.player-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.player-stats .stat {
+    background: rgba(0, 255, 136, 0.1);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    color: #c0c0c0;
+    border-left: 3px solid #00ff88;
+    transition: all 0.3s ease;
+}
+
+.player-stats .stat:hover {
+    background: rgba(0, 255, 136, 0.15);
+    color: #e0e0e0;
+    border-left-width: 4px;
+    transform: translateX(3px);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .about-section {
+        padding: 60px 0;
+    }
+    
+    .about-content h2 {
+        font-size: 2rem;
+    }
+    
+    .about-text p {
+        font-size: 1rem;
+        text-align: center;
+    }
+    
+    .about-goals {
+        text-align: center;
+        padding: 20px;
+    }
+    
+    .about-goals li {
+        text-align: left;
+    }
+}
+
+@media (max-width: 480px) {
+    .about-section {
+        padding: 40px 0;
+    }
+    
+    .about-content h2 {
+        font-size: 1.8rem;
+    }
+    
+    .about-text p {
+        font-size: 0.95rem;
+    }
+    
+    .about-goals {
+        padding: 15px;
+    }
+    
+    .about-goals h3 {
+        font-size: 1.1rem;
+    }
+    
+    .about-goals li {
+        font-size: 0.9rem;
+    }
+}

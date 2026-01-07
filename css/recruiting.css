@@ -1,0 +1,134 @@
+/* ===================================
+   RECRUITING STYLES
+   Estilos para cards de recrutamento
+   =================================== */
+
+/* Card de recrutamento principal */
+.player-card.recruiting {
+    border: 2px dashed #00ff88;
+    background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 255, 136, 0.05));
+    transition: all 0.3s ease;
+}
+
+.player-card.recruiting:hover {
+    border-color: #00cc6a;
+    background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 255, 136, 0.08));
+    transform: translateY(-5px);
+}
+
+/* Placeholder para imagem de recrutamento */
+.recruiting-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 255, 136, 0.1));
+    color: #00ff88;
+    font-size: 4rem;
+    transition: all 0.3s ease;
+}
+
+.recruiting-placeholder:hover {
+    color: #00cc6a;
+    font-size: 4.2rem;
+}
+
+/* Badge de função para recrutamento */
+.recruiting-badge {
+    background: linear-gradient(135deg, #00ff88, #00cc6a) !important;
+    animation: pulse-recruiting 2s infinite;
+}
+
+@keyframes pulse-recruiting {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+/* Texto do título de recrutamento */
+.recruiting-text {
+    color: #00ff88 !important;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+}
+
+/* Seção de contato para recrutamento */
+.recruiting-contact {
+    margin-top: 15px;
+    padding: 15px;
+    background: rgba(0, 255, 136, 0.1);
+    border-radius: 8px;
+    border-left: 3px solid #00ff88;
+    transition: all 0.3s ease;
+}
+
+.recruiting-contact:hover {
+    background: rgba(0, 255, 136, 0.15);
+    border-left-width: 4px;
+}
+
+.recruiting-contact p {
+    margin: 5px 0;
+    color: #e0e0e0;
+    font-size: 0.9rem;
+}
+
+.recruiting-contact strong {
+    color: #00ff88;
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(0, 255, 136, 0.3);
+}
+
+.recruiting-note {
+    font-style: italic;
+    color: #b0b0b0 !important;
+    font-size: 0.8rem !important;
+    opacity: 0.8;
+}
+
+.recruiting-contact i {
+    color: #00ff88;
+    margin-right: 8px;
+    animation: bounce-icon 2s infinite;
+}
+
+@keyframes bounce-icon {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-3px);
+    }
+    60% {
+        transform: translateY(-2px);
+    }
+}
+
+/* Responsividade para dispositivos móveis */
+@media (max-width: 768px) {
+    .recruiting-placeholder {
+        font-size: 3rem;
+    }
+    
+    .recruiting-placeholder:hover {
+        font-size: 3.2rem;
+    }
+    
+    .recruiting-contact {
+        padding: 12px;
+    }
+    
+    .recruiting-contact p {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .recruiting-placeholder {
+        font-size: 2.5rem;
+    }
+    
+    .recruiting-contact {
+        padding: 10px;
+    }
+}
