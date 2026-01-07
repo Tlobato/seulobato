@@ -1,0 +1,150 @@
+/* ===================================
+   WHATSAPP LINKS STYLES
+   Estilos para links do WhatsApp
+   =================================== */
+
+/* Links do WhatsApp */
+.whatsapp-link {
+    color: #25D366 !important;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background: rgba(37, 211, 102, 0.1);
+    border: 1px solid rgba(37, 211, 102, 0.3);
+}
+
+.whatsapp-link:hover {
+    color: #ffffff !important;
+    background: rgba(37, 211, 102, 0.2);
+    border-color: #25D366;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+}
+
+.whatsapp-link i {
+    color: #25D366;
+    font-size: 1.1em;
+}
+
+.whatsapp-link:hover i {
+    color: #ffffff;
+    animation: whatsappPulse 0.6s ease-in-out;
+}
+
+@keyframes whatsappPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* Tooltip para explicar o link */
+.whatsapp-link-tooltip {
+    position: relative;
+}
+
+.whatsapp-link-tooltip::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    margin-bottom: 5px;
+}
+
+.whatsapp-link-tooltip::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: rgba(0, 0, 0, 0.9);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.whatsapp-link-tooltip:hover::after,
+.whatsapp-link-tooltip:hover::before {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Estilo especial para cards de recrutamento */
+.recruiting-contact .whatsapp-link {
+    background: rgba(37, 211, 102, 0.15);
+    border-color: rgba(37, 211, 102, 0.4);
+    font-weight: 600;
+}
+
+.recruiting-contact .whatsapp-link:hover {
+    background: rgba(37, 211, 102, 0.25);
+    transform: translateY(-2px);
+}
+
+/* Botão especial WhatsApp para contato principal */
+.whatsapp-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    color: white !important;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+    border: none;
+    cursor: pointer;
+}
+
+.whatsapp-button:hover {
+    background: linear-gradient(135deg, #128C7E, #25D366);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+    color: white !important;
+}
+
+.whatsapp-button i {
+    font-size: 16px;
+    animation: whatsappBounce 2s infinite;
+}
+
+@keyframes whatsappBounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-3px);
+    }
+    60% {
+        transform: translateY(-1px);
+    }
+}
+
+/* Estilo para o ícone no footer */
+.contact-info .whatsapp-link {
+    background: transparent;
+    border: none;
+    padding: 2px 4px;
+}
+
+.contact-info .whatsapp-link:hover {
+    background: rgba(37, 211, 102, 0.1);
+}
