@@ -6,40 +6,12 @@
 // Configuração dos links Steam
 const STEAM_CONFIG = {
     profileId: '76561199403242930',
-    profileUrl: 'https://steamcommunity.com/profiles/76561199403242930/',
-    steamProtocol: 'steam://friends/add/76561199403242930'
+    profileUrl: 'https://steamcommunity.com/profiles/76561199403242930/'
 };
 
 // Função para detectar se o usuário está no desktop
 function isDesktop() {
     return !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
-}
-
-// Função para tentar abrir no cliente Steam
-function openSteamClient(fallbackUrl) {
-    if (isDesktop()) {
-        // Tenta abrir no cliente Steam
-        const steamLink = document.createElement('a');
-        steamLink.href = STEAM_CONFIG.steamProtocol;
-        steamLink.style.display = 'none';
-        document.body.appendChild(steamLink);
-        steamLink.click();
-        document.body.removeChild(steamLink);
-        
-        // Fallback para o navegador após 2 segundos se o Steam não abrir
-        setTimeout(() => {
-            const userChoice = confirm(
-                'O cliente Steam não abriu automaticamente.\n\n' +
-                'Clique em "OK" para abrir o perfil no navegador ou "Cancelar" para tentar novamente.'
-            );
-            if (userChoice) {
-                window.open(fallbackUrl, '_blank');
-            }
-        }, 2000);
-    } else {
-        // Mobile: vai direto para o navegador
-        window.open(fallbackUrl, '_blank');
-    }
 }
 
 // Função para inicializar os links Steam
@@ -51,18 +23,16 @@ function initializeSteamLinks() {
         link.addEventListener('click', function(e) {
             e.preventDefault();
             
-            // CORREÇÃO: Todos os links agora vão para o perfil principal
-            const fallbackUrl = STEAM_CONFIG.profileUrl;
+            // Sempre vai para o perfil - usuário decide se quer adicionar
+            window.open(STEAM_CONFIG.profileUrl, '_blank');
             
-            // Tenta abrir no cliente Steam
-            openSteamClient(fallbackUrl);
+            // Mostra notificação de feedback
+            showSteamNotification();
         });
         
         // Adiciona tooltip explicativo
         if (!link.hasAttribute('data-tooltip')) {
-            const tooltipText = isDesktop() ? 
-                'Clique para abrir no Steam ou navegador' : 
-                'Clique para abrir no navegador';
+            const tooltipText = 'Clique para ver o perfil na Steam';
             link.setAttribute('data-tooltip', tooltipText);
             link.classList.add('steam-link-tooltip');
         }
@@ -91,8 +61,8 @@ function showSteamNotification() {
             <div style="display: flex; align-items: center; gap: 10px;">
                 <i class="fab fa-steam" style="font-size: 18px;"></i>
                 <div>
-                    <strong>Steam Link Ativado!</strong><br>
-                    <small>Abrindo perfil do Lobato...</small>
+                    <strong>Abrindo perfil Steam!</strong><br>
+                    <small>Redirecionando para o perfil do Lobato...</small>
                 </div>
             </div>
         </div>
