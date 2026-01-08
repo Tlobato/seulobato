@@ -7,7 +7,6 @@
 const STEAM_CONFIG = {
     profileId: '76561199403242930',
     profileUrl: 'https://steamcommunity.com/profiles/76561199403242930/',
-    addFriendUrl: 'https://steamcommunity.com/profiles/76561199403242930/home',
     steamProtocol: 'steam://friends/add/76561199403242930'
 };
 
@@ -52,11 +51,8 @@ function initializeSteamLinks() {
         link.addEventListener('click', function(e) {
             e.preventDefault();
             
-            // Determina qual URL usar baseado no contexto
-            const isAddFriend = this.textContent.includes('Adicionar') || 
-                               this.textContent.includes('Contato');
-            
-            const fallbackUrl = isAddFriend ? STEAM_CONFIG.addFriendUrl : STEAM_CONFIG.profileUrl;
+            // CORREÇÃO: Todos os links agora vão para o perfil principal
+            const fallbackUrl = STEAM_CONFIG.profileUrl;
             
             // Tenta abrir no cliente Steam
             openSteamClient(fallbackUrl);
