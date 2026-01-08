@@ -32,6 +32,24 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
+// Funcionalidade da seta de scroll para baixo
+const scrollArrow = document.querySelector('.scroll-arrow');
+if (scrollArrow) {
+    scrollArrow.addEventListener('click', () => {
+        // Encontra a próxima seção após o hero
+        const teamSection = document.querySelector('#team');
+        if (teamSection) {
+            teamSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+    
+    // Adicionar cursor pointer para deixar claro que é clicável
+    scrollArrow.style.cursor = 'pointer';
+}
+
 // Header background on scroll
 window.addEventListener('scroll', () => {
     const header = document.querySelector('.header');
