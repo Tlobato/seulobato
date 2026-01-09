@@ -13,6 +13,10 @@ on:
     branches: [ main ]
     paths: [ '.github/workflows/update-player-stats.yml' ]
 
+# Adiciona permissões necessárias
+permissions:
+  contents: write
+
 jobs:
   update-stats:
     runs-on: ubuntu-latest
@@ -20,6 +24,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
       
     - name: Setup Node.js
       uses: actions/setup-node@v4
