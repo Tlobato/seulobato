@@ -108,26 +108,72 @@
             </div>
             
             <div class="team-grid">
-                <!-- Player Card 1 - LOBATO (AWPer) -->
+                <!-- Player Card 1 - LOBATO (AWPer) com Flip Card -->
                 <div class="player-card">
-                    <div class="card-image">
-                        <img src="lobato.jpeg" alt="Lobato - AWPer" loading="lazy">
-                        <div class="card-overlay">
-                            <div class="role-badge">AWPer</div>
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        <h3 class="player-nickname">Lobato</h3>
-                        <p class="player-role">AWPer Principal</p>
-                        <p class="player-description">
-                            Entusiasta da AWP e apaixonado pela arma. Treino diariamente focando em 
-                            flickshots, tiros de longa distância e reflexos rápidos. Gosto de jogar 
-                            posicionado, fazendo picks decisivos e dando suporte ao time com eliminações 
-                            estratégicas nos momentos cruciais.
-                        </p>
-                        <div class="player-stats">
-                            <span class="stat">Disponibilidade: 2h/dia + fins de semana</span>
-                            <span class="stat">Especialidade: Flickshots e picks de longa distância</span>
+                    <div class="flip-card-container">
+                        <div class="flip-card" data-player-id="76561199403242930">
+                            <!-- Frente do Card -->
+                            <div class="flip-card-front">
+                                <div class="card-image">
+                                    <img src="lobato.jpeg" alt="Lobato - AWPer" loading="lazy">
+                                    <div class="card-overlay">
+                                        <div class="role-badge">AWPer</div>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <h3 class="player-nickname">Lobato</h3>
+                                    <p class="player-role">AWPer Principal</p>
+                                    <p class="player-description">
+                                        Entusiasta da AWP e apaixonado pela arma. Treino diariamente focando em 
+                                        flickshots, tiros de longa distância e reflexos rápidos. Gosto de jogar 
+                                        posicionado, fazendo picks decisivos e dando suporte ao time com eliminações 
+                                        estratégicas nos momentos cruciais.
+                                    </p>
+                                    <div class="player-stats">
+                                        <span class="stat">Disponibilidade: 2h/dia + fins de semana</span>
+                                        <span class="stat">Especialidade: Flickshots e picks de longa distância</span>
+                                    </div>
+                                </div>
+                                <!-- Indicador de flip - AGORA NO LADO ESQUERDO -->
+                                <div class="flip-indicator">
+                                    <i class="fas fa-sync-alt"></i>
+                                </div>
+                                <!-- REMOVIDO: Tooltip desnecessário -->
+                            </div>
+                            
+                            <!-- Verso do Card - Stats Competitivos -->
+                            <div class="flip-card-back">
+                                <div class="player-stats-back">
+                                    <h3 class="stats-title">Ranks Competitivos</h3>
+                                    <div class="rank-grid">
+                                        <!-- Os ranks serão carregados dinamicamente via JavaScript -->
+                                        <div class="rank-item steam">
+                                            <span class="platform-name">
+                                                <i class="fab fa-steam"></i> CS2 Premier
+                                            </span>
+                                            <span class="rank-value rank-loading">
+                                                Carregando...
+                                            </span>
+                                        </div>
+                                        <div class="rank-item faceit">
+                                            <span class="platform-name">
+                                                <i class="fas fa-trophy"></i> FACEIT
+                                            </span>
+                                            <span class="rank-value rank-loading">
+                                                Em breve
+                                            </span>
+                                        </div>
+                                        <div class="rank-item gc">
+                                            <span class="platform-name">
+                                                <i class="fas fa-gamepad"></i> GamersClub
+                                            </span>
+                                            <span class="rank-value">
+                                                Em breve
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -388,5 +434,6 @@
     <script src="js/main.js"></script>
     <script src="js/steam-links.js"></script>
     <script src="js/whatsapp-links.js"></script>
+    <script src="js/player-stats.js"></script>
 </body>
 </html>

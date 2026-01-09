@@ -1,0 +1,19 @@
+{
+  "steam": {
+    "profileName": "Lobato",
+    "premierRank": "Em breve",
+    "competitiveWins": "Em breve",
+    "hoursPlayed": "Em breve",
+    "totalKills": "Em breve",
+    "lastUpdate": "2025-01-07T18:00:00.000Z"
+  },
+  "faceit": {
+    "level": "Em breve",
+    "elo": "Em breve"
+  },
+  "gc": {
+    "rank": "Em breve"
+  },
+  "lastUpdate": "2025-01-07T18:00:00.000Z",
+  "status": "initial"
+}

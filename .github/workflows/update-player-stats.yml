@@ -1,0 +1,193 @@
+name: Update Player Stats
+
+on:
+  # Executa diariamente às 12:00 UTC (9:00 BRT)
+  schedule:
+    - cron: '0 12 * * *'
+  
+  # Permite execução manual
+  workflow_dispatch:
+  
+  # Executa na primeira vez quando criar o workflow
+  push:
+    branches: [ main ]
+    paths: [ '.github/workflows/update-player-stats.yml' ]
+
+jobs:
+  update-stats:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        
+    - name: Create data directory
+      run: mkdir -p data
+      
+    - name: Fetch Steam Stats
+      env:
+        STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
+        STEAM_ID: '76561199403242930'
+      run: |
+        # Script para buscar dados da Steam API
+        node -e "
+        const https = require('https');
+        const fs = require('fs');
+        
+        const STEAM_API_KEY = process.env.STEAM_API_KEY;
+        const STEAM_ID = process.env.STEAM_ID;
+        
+        if (!STEAM_API_KEY) {
+          console.log('⚠️ STEAM_API_KEY não configurada, usando dados básicos');
+          const mockData = {
+            steam: {
+              premierRank: 'Em breve',
+              competitiveWins: 'Em breve',
+              hoursPlayed: 'Em breve',
+              totalKills: 'Em breve',
+              lastUpdate: new Date().toISOString()
+            },
+            faceit: {
+              level: 'Em breve',
+              elo: 'Em breve'
+            },
+            gc: {
+              rank: 'Em breve'
+            },
+            lastUpdate: new Date().toISOString(),
+            status: 'no_api_key'
+          };
+          
+          fs.writeFileSync('data/player-stats.json', JSON.stringify(mockData, null, 2));
+          console.log('✅ Arquivo básico criado com sucesso');
+          process.exit(0);
+        }
+        
+        async function fetchSteamData() {
+          try {
+            console.log('🔍 Buscando dados da Steam API...');
+            
+            // URL para buscar dados básicos do usuário
+            const playerSummaryUrl = \`https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=\${STEAM_API_KEY}&steamids=\${STEAM_ID}\`;
+            
+            // URL para buscar estatísticas do CS2 (AppID: 730)
+            const cs2StatsUrl = \`https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=\${STEAM_API_KEY}&steamid=\${STEAM_ID}\`;
+            
+            const [playerResponse, statsResponse] = await Promise.allSettled([
+              fetch(playerSummaryUrl),
+              fetch(cs2StatsUrl)
+            ]);
+            
+            let playerData = null;
+            let gameStats = null;
+            
+            // Processa dados do jogador
+            if (playerResponse.status === 'fulfilled' && playerResponse.value.ok) {
+              const playerJson = await playerResponse.value.json();
+              playerData = playerJson.response?.players?.[0];
+              console.log('✅ Dados do jogador obtidos');
+            } else {
+              console.log('⚠️ Erro ao buscar dados do jogador');
+            }
+            
+            // Processa stats do CS2
+            if (statsResponse.status === 'fulfilled' && statsResponse.value.ok) {
+              const statsJson = await statsResponse.value.json();
+              gameStats = statsJson.playerstats?.stats;
+              console.log('✅ Stats do CS2 obtidas');
+            } else {
+              console.log('⚠️ Erro ao buscar stats do CS2 (perfil pode estar privado)');
+            }
+            
+            // Processa os dados - SEM VALORES FIXOS
+            const result = {
+              steam: {
+                profileName: playerData?.personaname || 'Lobato',
+                premierRank: 'Em breve', // Premier não está disponível na API pública
+                competitiveWins: 'N/A',
+                hoursPlayed: 'N/A',
+                totalKills: 'N/A',
+                lastUpdate: new Date().toISOString()
+              },
+              faceit: {
+                level: 'Em breve',
+                elo: 'Em breve'
+              },
+              gc: {
+                rank: 'Em breve'
+              },
+              lastUpdate: new Date().toISOString(),
+              status: 'success'
+            };
+            
+            if (gameStats && Array.isArray(gameStats)) {
+              const totalKillsStat = gameStats.find(stat => stat.name === 'total_kills');
+              const totalWinsStat = gameStats.find(stat => stat.name === 'total_wins');
+              const totalPlaytimeStat = gameStats.find(stat => stat.name === 'total_time_played');
+              
+              if (totalKillsStat) {
+                result.steam.totalKills = totalKillsStat.value.toLocaleString();
+              }
+              if (totalWinsStat) {
+                result.steam.competitiveWins = totalWinsStat.value.toLocaleString();
+              }
+              if (totalPlaytimeStat) {
+                result.steam.hoursPlayed = Math.round(totalPlaytimeStat.value / 3600).toLocaleString() + 'h';
+              }
+            }
+            
+            // Salva o arquivo
+            fs.writeFileSync('data/player-stats.json', JSON.stringify(result, null, 2));
+            console.log('✅ Dados salvos em data/player-stats.json');
+            
+          } catch (error) {
+            console.error('❌ Erro:', error.message);
+            
+            // Cria arquivo com dados básicos em caso de erro
+            const fallbackData = {
+              steam: {
+                premierRank: 'Em breve',
+                competitiveWins: 'N/A',
+                hoursPlayed: 'N/A',
+                totalKills: 'N/A',
+                lastUpdate: new Date().toISOString()
+              },
+              faceit: {
+                level: 'Em breve',
+                elo: 'Em breve'
+              },
+              gc: {
+                rank: 'Em breve'
+              },
+              lastUpdate: new Date().toISOString(),
+              status: 'error',
+              error: error.message
+            };
+            
+            fs.writeFileSync('data/player-stats.json', JSON.stringify(fallbackData, null, 2));
+            console.log('✅ Arquivo fallback criado');
+          }
+        }
+        
+        fetchSteamData();
+        "
+        
+    - name: Commit and push if changed
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add data/player-stats.json
+        
+        # Só commita se houver mudanças
+        if git diff --staged --quiet; then
+          echo "📊 Nenhuma mudança nos dados"
+        else
+          git commit -m "🤖 Atualizar stats do jogador - $(date '+%Y-%m-%d %H:%M')"
+          git push
+          echo "✅ Stats atualizadas e commitadas"
+        fi
