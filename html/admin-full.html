@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Painel Completo | SeuLobato</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <style>
+        .admin-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .admin-title {
+            font-family: var(--font-primary);
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+        
+        .logout-btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+        
+        .logout-btn:hover {
+            background: #ff5252;
+            transform: translateY(-1px);
+        }
+        
+        /* Tabs */
+        .admin-tabs {
+            display: flex;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+        
+        .tab-button {
+            background: none;
+            border: none;
+            padding: 1rem 2rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab-button.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+        
+        .tab-button:hover {
+            color: var(--text-primary);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Team Management Styles */
+        .team-stats-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: rgba(212, 165, 116, 0.1);
+            border: 1px solid rgba(212, 165, 116, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .stat-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-number {
+            display: block;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .management-section {
+            margin-bottom: 3rem;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .section-header h3 {
+            color: var(--text-primary);
+            font-size: 1.5rem;
+        }
+        
+        .btn-primary, .btn-secondary {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            color: var(--dark-bg);
+        }
+        
+        .btn-primary:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--border-color);
+            color: var(--text-primary);
+        }
+        
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .btn-danger {
+            background: #ff6b6b;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #ff5252;
+        }
+        
+        /* Member Cards */
+        .member-card, .position-card {
+            background: var(--dark-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+        
+        .member-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .member-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .member-info, .position-info {
+            flex: 1;
+        }
+        
+        .member-info h4, .position-info h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .member-role {
+            color: var(--accent-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .member-description, .position-description {
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+        
+        .member-meta, .position-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .member-actions, .position-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .position-requirements ul {
+            margin: 0.5rem 0;
+            padding-left: 1.5rem;
+            color: var(--text-secondary);
+        }
+        
+        .status {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .status-open {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+        
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        
+        .large-modal {
+            max-width: 800px;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .modal-header h2 {
+            color: var(--primary-color);
+            margin: 0;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        
+        .full-width {
+            grid-column: 1 / -1;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .form-group label {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+        
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(212, 165, 116, 0.2);
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        /* Rank Form Styles (from original admin.html) */
+        .rank-form {
+            display: grid;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+        
+        .form-input {
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(212, 165, 116, 0.2);
+        }
+        
+        .form-input:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .update-btn {
+            background: var(--primary-color);
+            color: var(--dark-bg);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+        
+        .update-btn:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+        }
+        
+        .current-stats {
+            background: rgba(212, 165, 116, 0.1);
+            border: 1px solid rgba(212, 165, 116, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .current-stats h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(212, 165, 116, 0.2);
+        }
+        
+        .stat-row:last-child {
+            border-bottom: none;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            z-index: 10001;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .notification.success {
+            background: #4CAF50;
+        }
+        
+        .notification.error {
+            background: #f44336;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        
+        .info-box {
+            background: rgba(102, 192, 244, 0.1);
+            border: 1px solid rgba(102, 192, 244, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .info-box h3 {
+            color: #66c0f4;
+            margin-bottom: 1rem;
+        }
+        
+        .info-box ul, .info-box ol {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        .info-box li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .info-box code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        
+        .info-box a {
+            color: #ff5e4d;
+            text-decoration: none;
+        }
+        
+        .info-box a:hover {
+            text-decoration: underline;
+        }
+        
+        /* File Actions Styles */
+        .file-section {
+            margin-bottom: 2rem;
+        }
+        
+        .file-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .copy-btn, .download-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+        
+        .copy-btn {
+            background: var(--primary-color);
+            color: var(--dark-bg);
+        }
+        
+        .download-btn {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .copy-btn:hover, .download-btn:hover {
+            transform: translateY(-1px);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .admin-container {
+                margin: 1rem;
+                padding: 1rem;
+            }
+            
+            .admin-tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                padding: 0.75rem 1rem;
+            }
+            
+            .team-stats-overview {
+                grid-template-columns: 1fr;
+            }
+            
+            .member-card, .position-card {
+                flex-direction: column;
+            }
+            
+            .member-actions, .position-actions {
+                flex-direction: row;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <a href="../index.html" class="back-link">← Voltar para o site</a>
+        
+        <div class="admin-header">
+            <h1 class="admin-title">⚙️ Painel Administrativo Completo</h1>
+            <button class="logout-btn" onclick="AuthManager.logout()">
+                <i class="fas fa-sign-out-alt"></i> Sair
+            </button>
+        </div>
+        
+        <!-- Tabs Navigation -->
+        <div class="admin-tabs">
+            <button class="tab-button active" data-tab="ranks">
+                📊 Gerenciar Ranks
+            </button>
+            <button class="tab-button" data-tab="team">
+                👥 Gerenciar Time
+            </button>
+        </div>
+        
+        <!-- Tab Content: Ranks -->
+        <div class="tab-content active" id="ranks-tab">
+            <!-- Stats Atuais -->
+            <div class="current-stats">
+                <h3>📊 Stats Atuais</h3>
+                <div id="current-stats-content">
+                    <div class="stat-row">
+                        <span>Carregando...</span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Formulário de Atualização -->
+            <form class="rank-form" id="updateForm">
+                <div class="form-group">
+                    <label class="form-label" for="premierRank">
+                        🎯 CS2 Premier Rank *
+                    </label>
+                    <input 
+                        type="text" 
+                        id="premierRank" 
+                        class="form-input" 
+                        placeholder="Ex: Level 8,500"
+                        required
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="faceitLevel">
+                        🏆 FACEIT Level (automático via API)
+                    </label>
+                    <input 
+                        type="text" 
+                        id="faceitLevel" 
+                        class="form-input" 
+                        placeholder="Será atualizado automaticamente"
+                        disabled
+                    >
+                    <small style="color: var(--text-secondary); font-size: 0.9rem;">
+                        ℹ️ FACEIT é atualizado automaticamente quando alguém visualiza o card
+                    </small>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="gcRank">
+                        🎮 GamersClub Rank
+                    </label>
+                    <input 
+                        type="text" 
+                        id="gcRank" 
+                        class="form-input" 
+                        placeholder="Ex: Rank A (opcional)"
+                    >
+                </div>
+                
+                <button type="submit" class="update-btn">
+                    ✅ Atualizar Ranks
+                </button>
+            </form>
+            
+            <!-- Instruções -->
+            <div class="info-box">
+                <h3>📝 Como Funciona</h3>
+                <ul>
+                    <li><strong>🎯 Premier Rank:</strong> Atualização manual - digite seu rank atual (obrigatório)</li>
+                    <li><strong>🏆 FACEIT:</strong> Atualização automática via API quando alguém visualiza o card</li>
+                    <li><strong>🎮 GamersClub:</strong> Atualização manual - digite seu rank atual (opcional)</li>
+                    <li><strong>📅 Datas:</strong> Atualizadas automaticamente com indicação se foi manual ou automático</li>
+                    <li><strong>💾 Salvamento:</strong> Role para baixo e clique em "📁 Gerar Arquivos JSON" para salvar</li>
+                </ul>
+            </div>
+            
+            <!-- Configuração FACEIT -->
+            <div class="info-box" style="background: rgba(255, 94, 77, 0.1); border-color: rgba(255, 94, 77, 0.3);">
+                <h3 style="color: #ff5e4d;">🔧 Configurar FACEIT API</h3>
+                <p style="color: var(--text-secondary); line-height: 1.6;">
+                    Para ativar a atualização automática do FACEIT, você precisa:
+                </p>
+                <ol style="color: var(--text-secondary); line-height: 1.6;">
+                    <li>Obter uma API Key gratuita em <a href="https://developers.faceit.com/" target="_blank">developers.faceit.com</a></li>
+                    <li>Encontrar seu FACEIT Player ID</li>
+                    <li>Configurar no arquivo <code>js/player-stats.js</code></li>
+                </ol>
+            </div>
+        </div>
+        
+        <!-- Tab Content: Team Management -->
+        <div class="tab-content" id="team-tab">
+            <div id="team-management-container">
+                <!-- Conteúdo será carregado dinamicamente pelo TeamManager -->
+                <div style="text-align: center; padding: 3rem; color: var(--text-secondary);">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                    <p>Carregando gerenciamento do time...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/auth.js"></script>
+    <script src="../js/admin-update.js"></script>
+    <script src="../js/team-manager.js"></script>
+    <script src="../js/real-save-system.js"></script>
+    
+    <script>
+        // Sistema de Tabs
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetTab = button.dataset.tab;
+                    
+                    // Remove active class from all buttons and contents
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Add active class to clicked button and corresponding content
+                    button.classList.add('active');
+                    document.getElementById(targetTab + '-tab').classList.add('active');
+                    
+                    // Initialize team manager when team tab is opened
+                    if (targetTab === 'team' && !window.teamManagerInitialized) {
+                        window.teamManager = new TeamManager();
+                        window.teamManagerInitialized = true;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

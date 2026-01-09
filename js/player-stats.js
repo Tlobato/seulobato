@@ -3,6 +3,15 @@
    Sistema para buscar e exibir ranks dos jogadores
    =================================== */
 
+// Configuração das APIs
+const STATS_CONFIG = {
+    faceit: {
+        apiKey: '02abe85d-c5f2-495c-a3ed-fca9c02fad6b',
+        playerNickname: 'Lobato-', // Nickname do FACEIT
+        baseUrl: 'https://open.faceit.com/data/v4'
+    }
+};
+
 // Cache para evitar muitas requisições
 const statsCache = {
     data: null,
@@ -35,16 +44,14 @@ class PlayerStatsManager {
                 }
             });
 
-            // Adiciona indicador de flip se não existir (SÓ O ÍCONE, SEM TOOLTIP)
+            // Adiciona indicador de flip se não existir
             if (!card.querySelector('.flip-indicator')) {
                 const indicator = document.createElement('div');
                 indicator.className = 'flip-indicator';
                 indicator.innerHTML = '<i class="fas fa-sync-alt"></i>';
-                indicator.title = 'Ver ranks'; // Tooltip nativo do navegador (discreto)
+                indicator.title = 'Ver ranks'; 
                 card.querySelector('.flip-card-front').appendChild(indicator);
             }
-
-            // REMOVIDO: Tooltip customizado desnecessário
         });
     }
 
@@ -60,8 +67,24 @@ class PlayerStatsManager {
         this.showLoadingState(statsContainer);
 
         try {
-            // Busca dados do arquivo JSON
-            const statsData = await this.fetchStatsFromFile();
+            // Busca dados do arquivo JSON + FACEIT API
+            const [fileData, faceitData] = await Promise.allSettled([
+                this.fetchStatsFromFile(playerId),
+                this.fetchFaceitStats()
+            ]);
+
+            const statsData = fileData.status === 'fulfilled' ? fileData.value : {};
+            const faceitStats = faceitData.status === 'fulfilled' ? faceitData.value : null;
+
+            // Mescla dados do FACEIT se disponível
+            if (faceitStats) {
+                statsData.faceit = {
+                    ...statsData.faceit,
+                    ...faceitStats,
+                    lastUpdate: new Date().toISOString(),
+                    updateType: 'automatic'
+                };
+            }
             
             // Atualiza a interface
             this.updateStatsDisplay(statsContainer, statsData);
@@ -72,17 +95,16 @@ class PlayerStatsManager {
         }
     }
 
-    // Busca dados do arquivo JSON gerado pelo GitHub Action
-    async fetchStatsFromFile() {
+    // Busca dados do arquivo JSON para um jogador específico
+    async fetchStatsFromFile(playerId) {
         // Verifica cache
         if (this.isCacheValid()) {
-            return statsCache.data;
+            return this.getPlayerStats(statsCache.data, playerId);
         }
 
         try {
             console.log('🔍 Buscando dados dos stats...');
             
-            // Busca o arquivo JSON
             const response = await fetch('./data/player-stats.json?t=' + Date.now());
             
             if (!response.ok) {
@@ -96,16 +118,15 @@ class PlayerStatsManager {
             statsCache.lastUpdate = Date.now();
             
             console.log('✅ Dados carregados:', data.status || 'success');
-            return data;
+            return this.getPlayerStats(data, playerId);
             
         } catch (error) {
             console.error('❌ Erro ao buscar arquivo de stats:', error);
             
-            // Retorna dados fallback - SEM VALORES FIXOS
+            // Retorna dados fallback
             return {
                 steam: {
-                    premierRank: 'Em breve',
-                    hoursPlayed: 'Em breve'
+                    premierRank: 'Em breve'
                 },
                 faceit: {
                     level: 'Em breve'
@@ -116,6 +137,78 @@ class PlayerStatsManager {
                 status: 'error',
                 error: error.message
             };
+        }
+    }
+
+    // Extrai stats de um jogador específico
+    getPlayerStats(data, playerId) {
+        // Se for estrutura antiga (um jogador só), retorna direto
+        if (data.steam && !data.players) {
+            return data;
+        }
+
+        // Se for estrutura nova (múltiplos jogadores)
+        if (data.players && data.players[playerId]) {
+            return data.players[playerId];
+        }
+
+        // Fallback
+        return {
+            steam: { premierRank: 'Em breve' },
+            faceit: { level: 'Em breve' },
+            gc: { rank: 'Em breve' }
+        };
+    }
+
+    // Busca dados do FACEIT pelo nickname
+    async fetchFaceitStats() {
+        if (!STATS_CONFIG.faceit.apiKey || !STATS_CONFIG.faceit.playerNickname) {
+            console.log('⚠️ FACEIT API não configurada');
+            return null;
+        }
+
+        try {
+            console.log('🔍 Buscando dados do FACEIT pelo nickname...');
+            
+            // Primeiro busca o jogador pelo nickname
+            const playerResponse = await fetch(
+                `${STATS_CONFIG.faceit.baseUrl}/players?nickname=${STATS_CONFIG.faceit.playerNickname}`,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${STATS_CONFIG.faceit.apiKey}`,
+                        'Accept': 'application/json'
+                    }
+                }
+            );
+
+            if (!playerResponse.ok) {
+                console.error(`❌ FACEIT API Error: ${playerResponse.status} - ${playerResponse.statusText}`);
+                return null;
+            }
+
+            const playerData = await playerResponse.json();
+            console.log('✅ Dados FACEIT carregados:', playerData);
+            
+            // Busca stats específicas do CS2
+            const cs2Stats = playerData.games?.cs2 || playerData.games?.csgo;
+            
+            if (cs2Stats) {
+                return {
+                    level: `Level ${cs2Stats.skill_level}`,
+                    elo: `${cs2Stats.faceit_elo} ELO`,
+                    region: playerData.country || 'Unknown'
+                };
+            } else {
+                console.log('⚠️ Dados CS2/CSGO não encontrados no FACEIT');
+                return {
+                    level: 'Sem dados CS2',
+                    elo: 'Sem dados CS2'
+                };
+            }
+
+        } catch (error) {
+            console.error('❌ Erro ao buscar dados do FACEIT:', error);
+            return null;
         }
     }
 
@@ -156,31 +249,44 @@ class PlayerStatsManager {
         `;
     }
 
-    // Atualiza a exibição dos stats - SEM VALORES FIXOS
+    // Atualiza a exibição dos stats - SEM HORAS JOGADAS
     updateStatsDisplay(container, data) {
         const steamData = data.steam || {};
         const faceitData = data.faceit || {};
         const gcData = data.gc || {};
         
-        // Formata dados do Steam - APENAS SE TIVER DADOS REAIS
+        // Formata dados do Steam - APENAS RANK
         let steamContent = '';
         if (steamData.premierRank && steamData.premierRank !== 'N/A' && steamData.premierRank !== 'Em breve') {
-            steamContent += `<div style="font-size: 0.95rem; margin-bottom: 0.3rem;"><strong>${steamData.premierRank}</strong></div>`;
-            
-            // Só mostra horas se disponível
-            if (steamData.hoursPlayed && steamData.hoursPlayed !== 'N/A' && steamData.hoursPlayed !== 'Em breve') {
-                steamContent += `<div style="font-size: 0.8rem; opacity: 0.8;">Horas jogadas: ${steamData.hoursPlayed}</div>`;
-            }
+            steamContent = `<strong>${steamData.premierRank}</strong>`;
         } else {
-            // Se não tiver dados reais, mostra "Em breve"
             steamContent = 'Em breve';
         }
 
-        // Mostra quando foi atualizado - FUNCIONA COM GITHUB ACTIONS
-        const lastUpdate = data.lastUpdate ? new Date(data.lastUpdate) : null;
-        const updateText = lastUpdate ? 
-            `${lastUpdate.toLocaleDateString('pt-BR')} ${lastUpdate.toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'})}` : 
-            '';
+        // Formata dados do FACEIT
+        let faceitContent = '';
+        if (faceitData.level && faceitData.level !== 'Em breve') {
+            faceitContent = faceitData.level;
+            if (faceitData.elo && faceitData.elo !== 'Em breve' && !faceitData.elo.includes('Sem dados')) {
+                faceitContent += `<div style="font-size: 0.8rem; opacity: 0.8;">${faceitData.elo}</div>`;
+            }
+        } else {
+            faceitContent = 'Em breve';
+        }
+
+        // Mostra datas de atualização
+        const getUpdateInfo = (platformData) => {
+            if (!platformData?.lastUpdate) return '';
+            
+            const date = new Date(platformData.lastUpdate);
+            const isAutomatic = platformData.updateType === 'automatic';
+            const icon = isAutomatic ? '🔄' : '✏️';
+            const type = isAutomatic ? 'Auto' : 'Manual';
+            
+            return `<div style="font-size: 0.65rem; opacity: 0.5; margin-top: 0.3rem;">
+                ${icon} ${type}: ${date.toLocaleDateString('pt-BR')} ${date.toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'})}
+            </div>`;
+        };
 
         container.innerHTML = `
             <div class="rank-item steam">
@@ -189,29 +295,27 @@ class PlayerStatsManager {
                 </span>
                 <div class="rank-value">
                     ${steamContent}
+                    ${getUpdateInfo(steamData)}
                 </div>
             </div>
             <div class="rank-item faceit">
                 <span class="platform-name">
                     <i class="fas fa-trophy"></i> FACEIT
                 </span>
-                <span class="rank-value">
-                    ${faceitData.level || 'Em breve'}
-                </span>
+                <div class="rank-value">
+                    ${faceitContent}
+                    ${getUpdateInfo(faceitData)}
+                </div>
             </div>
             <div class="rank-item gc">
                 <span class="platform-name">
                     <i class="fas fa-gamepad"></i> GamersClub
                 </span>
-                <span class="rank-value">
+                <div class="rank-value">
                     ${gcData.rank || 'Em breve'}
-                </span>
+                    ${getUpdateInfo(gcData)}
+                </div>
             </div>
-            ${updateText ? `
-            <div style="text-align: center; margin-top: 1rem; font-size: 0.65rem; opacity: 0.5;">
-                Atualizado: ${updateText}
-            </div>
-            ` : ''}
         `;
     }
 
@@ -247,7 +351,7 @@ class PlayerStatsManager {
 
     // Carrega stats iniciais
     loadPlayerStats() {
-        console.log('🎮 Sistema de stats inicializado - GitHub Actions');
+        console.log('🎮 Sistema de stats inicializado - FACEIT API por nickname!');
     }
 
     // Método público para atualizar stats manualmente

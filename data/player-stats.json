@@ -1,19 +1,29 @@
 {
-  "steam": {
-    "profileName": "Lobato",
-    "premierRank": "Em breve",
-    "competitiveWins": "9,638",
-    "hoursPlayed": "509h",
-    "totalKills": "24,533",
-    "lastUpdate": "2026-01-09T17:01:03.687Z"
+  "players": {
+    "76561199403242930": {
+      "nickname": "Lobato",
+      "steam": {
+        "premierRank": "8623",
+        "lastUpdate": "2026-01-09T20:15:00.000Z",
+        "updateType": "manual"
+      },
+      "faceit": {
+        "level": "Em breve",
+        "elo": "Em breve",
+        "lastUpdate": null,
+        "updateType": "automatic"
+      },
+      "gc": {
+        "rank": "Em breve",
+        "lastUpdate": null,
+        "updateType": "manual"
+      }
+    }
   },
-  "faceit": {
-    "level": "Em breve",
-    "elo": "Em breve"
+  "teamSettings": {
+    "maxPlayers": 5,
+    "activePlayers": 1,
+    "lastUpdate": "2026-01-09T20:15:00.000Z"
   },
-  "gc": {
-    "rank": "Em breve"
-  },
-  "lastUpdate": "2026-01-09T17:01:03.687Z",
   "status": "success"
 }

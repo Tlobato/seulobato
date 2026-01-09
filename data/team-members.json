@@ -1,0 +1,84 @@
+{
+  "members": [
+    {
+      "id": "lobato",
+      "nickname": "Lobato",
+      "realName": "Thyago Lobato",
+      "role": "AWPer",
+      "roleDescription": "AWPer Principal",
+      "description": "Entusiasta da AWP e apaixonado pela arma. Treino diariamente focando em flickshots, tiros de longa distância e reflexos rápidos. Gosto de jogar posicionado, fazendo picks decisivos e dando suporte ao time com eliminações estratégicas nos momentos cruciais.",
+      "image": "lobato.jpeg",
+      "stats": {
+        "availability": "2h/dia + fins de semana",
+        "specialty": "Flickshots e picks de longa distância"
+      },
+      "contact": {
+        "steam": "76561199403242930",
+        "whatsapp": "(15) 98122-9370",
+        "email": "thyagollobato@gmail.com"
+      },
+      "status": "active",
+      "joinDate": "2025-01-01",
+      "lastUpdate": "2025-01-09T17:01:03.687Z"
+    }
+  ],
+  "openPositions": [
+    {
+      "id": "entry-fragger",
+      "role": "Entry Fragger",
+      "description": "Procuramos alguém corajoso para abrir os sites! Ideal para quem gosta de ser o primeiro a entrar e não tem medo de trocar bala. Treinos 3x por semana (seg/qua/sex) + fins de semana opcionais.",
+      "requirements": [
+        "Disponibilidade seg/qua/sex",
+        "Coragem para entry frags",
+        "Boa mira e reflexos"
+      ],
+      "priority": 1,
+      "status": "open"
+    },
+    {
+      "id": "igl",
+      "role": "IGL",
+      "roleDescription": "In-Game Leader",
+      "description": "Precisamos de um líder para organizar as jogadas! Ideal para quem gosta de pensar estratégias, fazer calls e coordenar o time. Experiência é bem-vinda, mas vontade de aprender também vale!",
+      "requirements": [
+        "Liderança natural",
+        "Conhecimento tático",
+        "Boa comunicação"
+      ],
+      "priority": 2,
+      "status": "open"
+    },
+    {
+      "id": "support",
+      "role": "Support",
+      "roleDescription": "Support Player",
+      "description": "Buscamos alguém para dar suporte ao time! Especialista em utilitários, smokes, flashes e sempre presente para ajudar os companheiros. Perfeito para quem gosta de jogar em equipe.",
+      "requirements": [
+        "Conhecimento de utilitários",
+        "Jogo em equipe",
+        "Paciência e dedicação"
+      ],
+      "priority": 3,
+      "status": "open"
+    },
+    {
+      "id": "rifler",
+      "role": "Rifler",
+      "roleDescription": "Rifler Versátil",
+      "description": "Procuramos um rifler versátil para completar o time! Alguém que se adapte a diferentes situações e possa jogar em várias posições conforme a necessidade da partida.",
+      "requirements": [
+        "Versatilidade",
+        "Adaptabilidade",
+        "Boa mira com rifles"
+      ],
+      "priority": 4,
+      "status": "open"
+    }
+  ],
+  "teamSettings": {
+    "maxMembers": 5,
+    "currentMembers": 1,
+    "recruitmentActive": true,
+    "lastUpdate": "2025-01-09T17:01:03.687Z"
+  }
+}
