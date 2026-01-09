@@ -1,20 +1,48 @@
 /* ===================================
-   AUTHENTICATION SYSTEM
-   Sistema de autenticação para admin com menu
+   AUTHENTICATION SYSTEM - SECURE
+   Sistema de autenticação seguro com hash
    =================================== */
 
 class AuthManager {
     constructor() {
-        // Credenciais do admin (em produção, isso seria mais seguro)
+        // Credenciais hasheadas com salt
         this.adminCredentials = {
             username: 'lobato',
-            password: 'seulobato2025'
+            passwordHash: 'add9387afd3a548f9f17f21374bf18f25f3c13db532ff515dd3e84df00e12778',
+            salt: 'x9k2m8n5p1q7r3s6t4u8v2w9y5z1a3b7'
         };
         
         this.sessionKey = 'seulobato_admin_session';
         this.sessionDuration = 24 * 60 * 60 * 1000; // 24 horas
         
         this.initializeAuth();
+    }
+
+    // Gera hash seguro
+    async generateHash(password, salt) {
+        const textToHash = password + salt;
+        
+        // Usa Web Crypto API
+        if (window.crypto && window.crypto.subtle) {
+            try {
+                const encoder = new TextEncoder();
+                const data = encoder.encode(textToHash);
+                const hashBuffer = await window.crypto.subtle.digest('SHA-256', data);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            } catch (error) {
+                console.log('Erro no Web Crypto API');
+                return null;
+            }
+        }
+        
+        return null;
+    }
+
+    // Verifica se a senha está correta
+    async verifyPassword(inputPassword) {
+        const inputHash = await this.generateHash(inputPassword, this.adminCredentials.salt);
+        return inputHash === this.adminCredentials.passwordHash;
     }
 
     // Inicializa o sistema de autenticação
@@ -328,7 +356,7 @@ class AuthManager {
     }
 
     // Manipula o login
-    handleLogin(e) {
+    async handleLogin(e) {
         e.preventDefault();
         
         const username = document.getElementById('username').value.trim();
@@ -336,7 +364,7 @@ class AuthManager {
         const errorDiv = document.getElementById('loginError');
         
         // Verifica credenciais
-        if (username === this.adminCredentials.username && password === this.adminCredentials.password) {
+        if (username === this.adminCredentials.username && await this.verifyPassword(password)) {
             // Login bem-sucedido
             this.createSession();
             this.hideLoginModal();
@@ -460,7 +488,7 @@ class AuthManager {
 
 // Inicializa o sistema de autenticação
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('🚀 Inicializando AuthManager com menu...');
+    console.log('🔒 Sistema de autenticação seguro inicializado');
     window.authManager = new AuthManager();
 });
 
